@@ -53,3 +53,4 @@ All members of Aqua3D/FishSense must participate in the Operations Section.  Exc
 - Operations Calendar: https://calendar.google.com/calendar/u/0?cid=Y19kNjg4OTc1Zjk2YzkyMGNjYWEyMjIxZjU3M2ZlYmZhOWE2YmI4NmQxZTQyYzkyYThiOWU3ZGE0YmUzNzU1YTYxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20
 - Roster: https://docs.google.com/spreadsheets/d/1JMZ-3G0BHQRhrmlRyLk1e9WGPQJhErv3XjVcRln0HQk/edit?usp=sharing
 - Procedures: https://github.com/UCSD-E4E/fishsense-operations
+- Event Signup: https://forms.gle/4RVHfdgFBPxWByee6
