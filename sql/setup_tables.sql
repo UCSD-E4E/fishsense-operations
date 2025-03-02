@@ -4,3 +4,7 @@ CREATE TABLE IF NOT EXISTS dives (
     invalid_image NUMERIC,
     multiple_date NUMERIC,
     checksum TEXT);
+CREATE TABLE IF NOT EXISTS images (
+    path TEXT PRIMARY KEY,
+    dive TEXT REFERENCES dives (path)
+);

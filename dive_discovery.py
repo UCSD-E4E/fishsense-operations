@@ -38,14 +38,25 @@ class Processor:
             con = sqlite3.connect(self.__db_name)
             try:
                 curr = con.cursor()
-                images = data_root.rglob('*.ORF')
-                dives = {img.parent.absolute() for img in images}
-                for dive in tqdm(dives):
-                    if dive.name in ['@eaDir']:
+                images = list(data_root.rglob('*.ORF'))
+                for image in tqdm(images):
+                    if '@eaDir' in image.parts:
                         continue
-                    curr.execute(self.load_script('sql/insert_dive_path.sql'), {
-    'path': dive.relative_to(data_root).as_posix()
-})
+                    if '.Trashes' in image.parts:
+                        continue
+                    curr.execute(
+                        self.load_script('sql/insert_dive_path.sql'),
+                        {
+                            'path': image.parent.absolute().relative_to(data_root).as_posix()
+                        }
+                    )
+                    curr.execute(
+                        self.load_script('sql/insert_image_path.sql'),
+                        {
+                            'path': image.absolute().relative_to(data_root).as_posix(),
+                            'dive': image.parent.absolute().relative_to(data_root).as_posix()
+                        }
+                    )
                     con.commit()
             finally:
                 curr.close()
