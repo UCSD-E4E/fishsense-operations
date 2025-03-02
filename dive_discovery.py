@@ -13,7 +13,7 @@ data_root = Path('//e4e-nas.ucsd.edu/fishsense_data/REEF/data')
 df = pd.DataFrame()
 
 # %%
-images = data_root.rglob('*.ORF', case_sensitive=False)
+images = data_root.rglob('*.ORF')
 
 # %%
 dives = {img.parent.absolute() for img in images}

@@ -20,7 +20,7 @@ def get_image_date(path: Path) -> Optional[dt.datetime]:
         return None
 
 def get_dive_date(path: Path) -> Tuple[dt.date, bool, bool]:
-    jpgs = path.glob('*.jpg', case_sensitive=False)
+    jpgs = path.glob('*.JPG')
     with multiprocessing.Pool() as pool:
         img_dates = pool.map(get_image_date, jpgs)
     invalid_dates = any(date is None for date in img_dates)
@@ -42,7 +42,7 @@ def get_file_checksum(path: Path) -> str:
     return cksum.hexdigest()
 
 def get_dive_checksum(path: Path) -> str:
-    reference_data = sorted(path.rglob('*.orf', case_sensitive=False))
+    reference_data = sorted(path.rglob('*.ORF'))
     with multiprocessing.Pool() as pool:
         checksums = pool.map(get_file_checksum, reference_data)
     cksum = md5()
