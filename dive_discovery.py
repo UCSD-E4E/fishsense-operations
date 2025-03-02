@@ -20,7 +20,7 @@ class Processor:
             con = sqlite3.connect(self.__db_name)
             try:
                 curr = con.cursor()
-                curr.execute(self.load_script('sql/setup_tables.sql'))
+                curr.executescript(self.load_script('sql/setup_tables.sql'))
                 con.commit()
             finally:
                 curr.close()
