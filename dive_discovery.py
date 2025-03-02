@@ -39,23 +39,26 @@ class Processor:
             try:
                 curr = con.cursor()
                 images = list(data_root.rglob('*.ORF'))
-                for image in tqdm(images):
-                    if '@eaDir' in image.parts:
-                        continue
-                    if '.Trashes' in image.parts:
-                        continue
+                dives = list({image.parent for image in tqdm(images)})
+                dives = [dive for dive in dives if '@eaDir' not in dive.parts]
+                dives = [dive for dive in dives if '.Trashes' not in dive.parts]
+                for dive in tqdm(dives):
+                    images = dive.glob('*.ORF')
                     curr.execute(
                         self.load_script('sql/insert_dive_path.sql'),
                         {
-                            'path': image.parent.absolute().relative_to(data_root).as_posix()
+                            'path': dive.relative_to(data_root).as_posix()
                         }
                     )
-                    curr.execute(
+                    curr.executemany(
                         self.load_script('sql/insert_image_path.sql'),
-                        {
-                            'path': image.absolute().relative_to(data_root).as_posix(),
-                            'dive': image.parent.absolute().relative_to(data_root).as_posix()
-                        }
+                        [
+                            {
+                                'path': image.absolute().relative_to(data_root).as_posix(),
+                                'dive': dive.relative_to(data_root).as_posix()
+                            }
+                            for image in images
+                        ]
                     )
                     con.commit()
             finally:
