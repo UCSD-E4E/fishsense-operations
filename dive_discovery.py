@@ -5,7 +5,7 @@ from pathlib import Path
 
 from tqdm.auto import tqdm
 
-from backend import get_dive_checksum, get_dive_date
+from backend import get_dive_checksum, get_dive_date, get_camera_sns
 
 
 class Processor:
@@ -30,10 +30,38 @@ class Processor:
             con.close()
 
     def run(self, data_root: Path):
-        self.get_images(data_root)
-        self.get_dive_dates(data_root=data_root)
-        self.get_dive_checksums(data_root=data_root)
-        self.extract_unique_dives()
+        # self.get_images(data_root)
+        # self.get_dive_dates(data_root=data_root)
+        # self.get_dive_checksums(data_root=data_root)
+        # self.extract_unique_dives()
+        self.get_camera_sn(data_root=data_root)
+
+    def get_camera_sn(self, data_root: Path):
+        with contextlib.closing(sqlite3.connect(self.__db_name)) as con, \
+                contextlib.closing(con.cursor()) as cur:
+            cur.execute(self.load_script('sql/select_unique_dives.sql'))
+            dives = [row[0] for row in cur.fetchall()]
+            for dive in tqdm(dives, 'Get Camera Serial Numbers'):
+                cur.execute(
+                    self.load_script('sql/select_frames_from_dive.sql'),
+                    {
+                        'dive': dive
+                    }
+                )
+                keys = [row[0] for row in cur.fetchall()]
+                frames = [data_root / Path(key) for key in keys]
+                camera_sns = get_camera_sns(frames)
+                
+                cur.executemany(
+                    self.load_script('sql/update_camera_sn.sql'),
+                    [
+                        {
+                            'camera_sn': camera_sns[idx],
+                            'path': keys[idx]
+                        }
+                        for idx in range(len(keys))
+                    ]
+                )
 
     def extract_unique_dives(self):
         with contextlib.closing(sqlite3.connect(self.__db_name)) as con, \

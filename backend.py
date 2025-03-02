@@ -3,7 +3,7 @@
 import datetime as dt
 import multiprocessing
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Iterable, List
 from hashlib import md5
 
 import numpy as np
@@ -57,3 +57,8 @@ def get_camera_sn(path: Path) -> Optional[str]:
         return str(exif.get(ExifTags.Base.CameraSerialNumber))
     except Exception:
         return None
+
+def get_camera_sns(paths: Iterable[Path]) -> List[str]:
+    with multiprocessing.Pool() as pool:
+        sns = pool.map(get_camera_sn, paths)
+    return sns
