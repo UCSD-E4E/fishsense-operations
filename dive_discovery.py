@@ -39,7 +39,7 @@ class Processor:
                 curr = con.cursor()
                 images = data_root.rglob('*.ORF')
                 dives = {img.parent.absolute() for img in images}
-                for dive in dives:
+                for dive in tqdm(dives):
                     if dive.name in ['@eaDir']:
                         continue
                     curr.execute(self.load_script('sql/insert_dive_path.sql'), {
