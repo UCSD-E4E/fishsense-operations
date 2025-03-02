@@ -1,5 +1,5 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,windows,macos,linux
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,visualstudiocode,windows,macos,linux
+# Edit at https://www.toptal.com/developsqers/gitignore?templates=python,visualstudiocode,windows,macos,linux
 
 ### Linux ###
 *~
@@ -267,3 +267,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,windows,macos,linux
+*.db
+*.db-journal
