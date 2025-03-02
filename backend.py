@@ -49,3 +49,11 @@ def get_dive_checksum(path: Path) -> str:
     for idx, file in enumerate(reference_data):
         cksum.update(f'{file.name}:{checksums[idx]}\n'.encode())
     return cksum.hexdigest()
+
+def get_camera_sn(path: Path) -> Optional[str]:
+    try:
+        img = Image.open(path)
+        exif = img.getexif()
+        return str(exif.get(ExifTags.Base.CameraSerialNumber))
+    except Exception:
+        return None

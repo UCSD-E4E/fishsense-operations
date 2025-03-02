@@ -31,7 +31,13 @@ class Processor:
         self.get_images(data_root)
         self.get_dive_dates(data_root=data_root)
         self.get_dive_checksums(data_root=data_root)
+        self.extract_unique_dives()
 
+    def extract_unique_dives(self):
+        with sqlite3.connect(self.__db_name) as con, con.cursor() as cur:
+            cur: sqlite3.Cursor
+            cur.execute(self.load_script('sql/insert_unique_dives.sql'))
+            con.commit()
     
     def get_images(self, data_root: Path):
         try:
