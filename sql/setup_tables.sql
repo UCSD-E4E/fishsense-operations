@@ -1,4 +1,4 @@
-CREATE TABLE dives (
+CREATE TABLE IF NOT EXISTS dives (
     path TEXT PRIMARY KEY,
     date TEXT,
     invalid_image NUMERIC,
