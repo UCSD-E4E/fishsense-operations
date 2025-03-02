@@ -61,6 +61,15 @@ class Processor:
                 for row in tqdm(rows):
                     path = data_root / Path(row[0])
                     mean_date, invalid_dates, multiple_dates = get_dive_date(path)
+                    if mean_date is None:
+                        curr.execute(
+                            self.load_script('sql/drop_dive.sql'),
+                            {
+                                'path': path.relative_to(data_root).as_posix()
+                            }
+                        )
+                        con.commit()
+                        continue
                     curr.execute(
                         self.load_script('sql/update_dive_date.sql'),
                         {
