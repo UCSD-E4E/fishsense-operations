@@ -36,7 +36,8 @@ class Processor:
         self.extract_unique_dives()
 
     def extract_unique_dives(self):
-        with contextlib.closing(sqlite3.connect(self.__db_name)) as con, con.cursor() as cur:
+        with contextlib.closing(sqlite3.connect(self.__db_name)) as con, \
+            contextlib.closing(con.cursor()) as cur:
             cur: sqlite3.Cursor
             cur.execute(self.load_script('sql/insert_unique_dives.sql'))
             con.commit()
