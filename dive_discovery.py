@@ -39,10 +39,10 @@ class Processor:
             try:
                 curr = con.cursor()
                 images = list(data_root.rglob('*.ORF'))
-                dives = list({image.parent for image in tqdm(images)})
+                dives = list({image.parent for image in tqdm(images, 'Discovering dives')})
                 dives = [dive for dive in dives if '@eaDir' not in dive.parts]
                 dives = [dive for dive in dives if '.Trashes' not in dive.parts]
-                for dive in tqdm(dives):
+                for dive in tqdm(dives, 'Discovering images'):
                     images = dive.glob('*.ORF')
                     curr.execute(
                         self.load_script('sql/insert_dive_path.sql'),
@@ -73,7 +73,7 @@ class Processor:
                 curr = con.cursor()
                 curr.execute(self.load_script('sql/select_next_dive_for_date.sql'))
                 rows = curr.fetchall()
-                for row in tqdm(rows):
+                for row in tqdm(rows, 'Checking dates'):
                     path = data_root / Path(row[0])
                     mean_date, invalid_dates, multiple_dates = get_dive_date(path)
                     if mean_date is None:
@@ -107,7 +107,7 @@ class Processor:
                 curr = con.cursor()
                 curr.execute(self.load_script('sql/select_next_dive_for_cksum.sql'))
                 rows = curr.fetchall()
-                for row in tqdm(rows):
+                for row in tqdm(rows, 'Computing checksums'):
                     path = data_root / Path(row[0])
                     cksum = get_dive_checksum(path)
 
