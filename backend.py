@@ -42,7 +42,7 @@ def get_file_checksum(path: Path) -> str:
     return cksum.hexdigest()
 
 def get_dive_checksum(path: Path) -> str:
-    reference_data = sorted(path.rglob('*.ORF'))
+    reference_data = sorted(path.glob('*.ORF'))
     with multiprocessing.Pool() as pool:
         checksums = pool.map(get_file_checksum, reference_data)
     cksum = md5()
