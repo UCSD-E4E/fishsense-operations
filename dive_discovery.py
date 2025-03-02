@@ -62,8 +62,8 @@ class Processor:
                     path = data_root / Path(row[0])
                     mean_date, invalid_dates, multiple_dates = get_dive_date(path)
                     curr.execute(
-                        sql=self.load_script('sql/update_dive_date.sql'),
-                        parameters={
+                        self.load_script('sql/update_dive_date.sql'),
+                        {
                             'date': mean_date.isoformat(),
                             'invalid_image': invalid_dates,
                             'multiple_dates': multiple_dates,
@@ -88,8 +88,8 @@ class Processor:
                     cksum = get_dive_checksum(path)
 
                     curr.execute(
-                        sql=self.load_script('sql/update_dive_cksum.sql'),
-                        parameters={
+                        self.load_script('sql/update_dive_cksum.sql'),
+                        {
                             'checksum': cksum,
                             'path': path.relative_to(data_root).as_posix()
                         }
