@@ -13,6 +13,8 @@ def process(data_root: Path):
 
     dives = {img.parent.absolute() for img in images}
 
+    dives = [dive for dive in dives if dive.name != '@eaDir']
+
     df['directory'] = [dive.as_posix() for dive in dives]
 
     df['date'] = None
@@ -35,6 +37,6 @@ def main():
     parser.add_argument('data_root', type=Path)
     args = parser.parse_args()
     process(args.data_root)
-    
+
 if __name__ == '__main__':
     main()
