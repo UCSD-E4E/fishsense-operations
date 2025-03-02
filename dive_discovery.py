@@ -9,6 +9,7 @@ from backend import get_dive_checksum, get_dive_date
 class Processor:
     def __init__(self, data_db: Path):
         self.__db_name = data_db
+        self.__setup_tables()
         
     def load_script(self, path) -> str:
         with open(path, 'r', encoding='utf-8') as handle:
