@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS dives (
     checksum TEXT);
 CREATE TABLE IF NOT EXISTS images (
     path TEXT PRIMARY KEY,
-    dive TEXT REFERENCES dives (path)
+    dive TEXT REFERENCES dives (path),
+    camera_sn TEXT,
 );
