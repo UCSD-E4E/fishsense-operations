@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS dives (
 CREATE TABLE IF NOT EXISTS images (
     path TEXT PRIMARY KEY,
     dive TEXT REFERENCES dives (path),
-    camera_sn TEXT,
+    camera_sn TEXT
 );
