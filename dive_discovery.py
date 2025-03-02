@@ -1,10 +1,12 @@
 import argparse
+import contextlib
 import sqlite3
 from pathlib import Path
 
 from tqdm.auto import tqdm
 
 from backend import get_dive_checksum, get_dive_date
+
 
 class Processor:
     def __init__(self, data_db: Path):
@@ -34,7 +36,7 @@ class Processor:
         self.extract_unique_dives()
 
     def extract_unique_dives(self):
-        with sqlite3.connect(self.__db_name) as con, con.cursor() as cur:
+        with contextlib.closing(sqlite3.connect(self.__db_name)) as con, con.cursor() as cur:
             cur: sqlite3.Cursor
             cur.execute(self.load_script('sql/insert_unique_dives.sql'))
             con.commit()
