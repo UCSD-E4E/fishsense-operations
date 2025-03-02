@@ -62,6 +62,7 @@ class Processor:
                         for idx in range(len(keys))
                     ]
                 )
+                con.commit()
 
     def extract_unique_dives(self):
         with contextlib.closing(sqlite3.connect(self.__db_name)) as con, \
