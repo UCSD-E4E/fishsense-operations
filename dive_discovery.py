@@ -30,10 +30,10 @@ class Processor:
             con.close()
 
     def run(self, data_root: Path):
-        # self.get_images(data_root)
-        # self.get_dive_dates(data_root=data_root)
-        # self.get_dive_checksums(data_root=data_root)
-        # self.extract_unique_dives()
+        self.get_images(data_root)
+        self.get_dive_dates(data_root=data_root)
+        self.get_dive_checksums(data_root=data_root)
+        self.extract_unique_dives()
         self.get_camera_sn(data_root=data_root)
 
     def get_camera_sn(self, data_root: Path):
