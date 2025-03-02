@@ -66,7 +66,7 @@ class Processor:
                         {
                             'date': mean_date.isoformat(),
                             'invalid_image': invalid_dates,
-                            'multiple_dates': multiple_dates,
+                            'multiple_date': multiple_dates,
                             'path': path.relative_to(data_root).as_posix()
                         }
                     )
